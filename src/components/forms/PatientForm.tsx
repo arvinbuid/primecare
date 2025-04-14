@@ -7,6 +7,10 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 
 import CustomFormField from "../CustomFormField"
+import SubmitButton from "../SubmitButton"
+import { useState } from "react"
+import { userFormValidation } from "@/lib/validation"
+import { useRouter } from "next/navigation"
 
 export enum FormFieldTypes {
     INPUT = 'input',
@@ -19,20 +23,31 @@ export enum FormFieldTypes {
 }
 
 
-const formSchema = z.object({
-    username: z.string().min(2).max(50),
-})
 
 const PatientForm = () => {
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter()
+
+    const form = useForm<z.infer<typeof userFormValidation>>({
+        resolver: zodResolver(userFormValidation),
         defaultValues: {
-            username: "",
+            name: "",
+            email: "",
+            phone: "",
         },
     })
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values)
+    async function onSubmit({ name, email, phone }: z.infer<typeof userFormValidation>) {
+        setIsLoading(true);
+
+        try {
+            const userData = { name, email, phone };
+
+            // TODO: Create user logic here...
+
+        } catch (error) {
+            console.error(error)
+        }
     }
 
     return (
@@ -74,7 +89,7 @@ const PatientForm = () => {
                     placeholder="(123) 456-7890"
                 />
 
-                <Button type="submit">Submit</Button>
+                <SubmitButton isLoading={isLoading}>Get in touch</SubmitButton>
             </form>
         </Form>
     )

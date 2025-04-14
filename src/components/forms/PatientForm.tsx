@@ -1,7 +1,6 @@
 "use client"
 
 import { z } from "zod"
-import { Button } from "@/components/ui/button"
 import { Form } from "../ui/form"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -9,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import CustomFormField from "../CustomFormField"
 import SubmitButton from "../SubmitButton"
 import { useState } from "react"
-import { userFormValidation } from "@/lib/validation"
+import { userFormValidation } from "../../../lib/validation"
 import { useRouter } from "next/navigation"
 
 export enum FormFieldTypes {

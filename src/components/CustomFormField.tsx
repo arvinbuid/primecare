@@ -2,7 +2,6 @@
 
 import {
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -11,6 +10,8 @@ import {
 import { Input } from "@/components/ui/input"
 import { FormFieldTypes } from "./forms/PatientForm"
 import Image from "next/image"
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
@@ -32,7 +33,7 @@ interface CustomProps {
 }
 
 const RenderField = ({ field, props }: { field: any, props: CustomProps }) => {
-    const { fieldType, iconSrc, iconAlt, placeholder } = props
+    const { fieldType, iconSrc, iconAlt, placeholder, showTimeSelect, dateFormat, renderSkeleton } = props
 
     switch (fieldType) {
         case FormFieldTypes.INPUT:
@@ -64,6 +65,30 @@ const RenderField = ({ field, props }: { field: any, props: CustomProps }) => {
                     />
                 </FormControl>
             )
+        case FormFieldTypes.DATE_PICKER:
+            return (
+                <div className="flex rounded-md border border-dark-500 bg-dark-400">
+                    <Image
+                        src="/assets/icons/calendar.svg"
+                        height={24}
+                        width={24}
+                        alt="user"
+                        className="ml-2"
+                    />
+                    <FormControl>
+                        <DatePicker
+                            selected={field.value}
+                            onChange={(date) => field.onChange(date)}
+                            showTimeSelect={showTimeSelect ?? false}
+                            timeInputLabel="Time:"
+                            dateFormat={dateFormat ?? "MM/dd/yyyy"}
+                            wrapperClassName="date-picker"
+                        />
+                    </FormControl>
+                </div>
+            )
+        case FormFieldTypes.SKELETON:
+            return renderSkeleton ? renderSkeleton(field) : null
         default:
             break;
     }
@@ -77,9 +102,9 @@ const CustomFormField = (props: CustomProps) => {
             control={control}
             name={name}
             render={({ field }) => (
-                <FormItem>
-                    {fieldType === FormFieldTypes.INPUT && label && (
-                        <FormLabel>{label}</FormLabel>
+                <FormItem className="flex-1 items-center">
+                    {props.fieldType !== FormFieldTypes.CHECKBOX && label && (
+                        <FormLabel className="shad-input-label">{label}</FormLabel>
                     )}
 
                     <RenderField field={field} props={props} />

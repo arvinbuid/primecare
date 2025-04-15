@@ -11,7 +11,7 @@ export default function Home() {
             src="/assets/icons/logo-full.svg"
             height={1000}
             width={1000}
-            alt="patient"
+            alt="PrimeCare Logo"
             className="mb-12 h-10 w-fit"
           />
 
@@ -32,7 +32,7 @@ export default function Home() {
         src="/assets/images/doctors.png"
         height={1000}
         width={1000}
-        alt="patient"
+        alt="Doctors"
         className="side-img max-w-[50%]"
       />
     </div>

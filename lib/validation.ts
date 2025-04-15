@@ -1,6 +1,6 @@
 import {z} from "zod";
 
-export const userFormValidation = z.object({
+export const UserFormValidation = z.object({
   name: z
     .string()
     .min(2, "Name must be atleast 2 characters.")

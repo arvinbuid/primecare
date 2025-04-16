@@ -16,6 +16,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 import { E164Number } from 'libphonenumber-js/core'
+import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select"
+import { Textarea } from "./ui/textarea"
 
 interface CustomProps {
     control: any
@@ -33,7 +35,7 @@ interface CustomProps {
 }
 
 const RenderField = ({ field, props }: { field: any, props: CustomProps }) => {
-    const { fieldType, iconSrc, iconAlt, placeholder, showTimeSelect, dateFormat, renderSkeleton } = props
+    const { fieldType, iconSrc, iconAlt, placeholder, showTimeSelect, dateFormat, renderSkeleton, children, disabled } = props
 
     switch (fieldType) {
         case FormFieldTypes.INPUT:
@@ -86,6 +88,32 @@ const RenderField = ({ field, props }: { field: any, props: CustomProps }) => {
                         />
                     </FormControl>
                 </div>
+            )
+        case FormFieldTypes.SELECT:
+            return (
+                <FormControl>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                            <SelectTrigger className="shad-select-trigger">
+                                <SelectValue placeholder={placeholder} />
+                            </SelectTrigger>
+                        </FormControl>
+                        <SelectContent className="shad-select-content">
+                            {children}
+                        </SelectContent>
+                    </Select>
+                </FormControl>
+            )
+        case FormFieldTypes.TEXTAREA:
+            return (
+                <FormControl>
+                    <Textarea
+                        placeholder={placeholder}
+                        {...field}
+                        className="shad-textArea"
+                        disabled={disabled}
+                    />
+                </FormControl>
             )
         case FormFieldTypes.SKELETON:
             return renderSkeleton ? renderSkeleton(field) : null

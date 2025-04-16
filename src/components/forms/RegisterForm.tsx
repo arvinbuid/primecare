@@ -14,8 +14,10 @@ import { FormFieldTypes } from "./PatientForm"
 import CustomFormField from "../CustomFormField"
 import SubmitButton from "../SubmitButton"
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group"
-import { GenderOptions } from "../../../constants"
+import { Doctors, GenderOptions } from "../../../constants"
 import { Label } from "../ui/label"
+import { SelectItem } from "../ui/select"
+import Image from "next/image"
 
 const RegisterForm = ({ user }: { user: User }) => {
     const [isLoading, setIsLoading] = useState(false);
@@ -170,8 +172,98 @@ const RegisterForm = ({ user }: { user: User }) => {
                     />
                 </div>
 
+                {/* MEDICAL INFORMATION */}
+                <section className="space-y-4">
+                    <div className="mb-9 space-y-1">
+                        <h2 className="sub-header">Medical Information</h2>
+                    </div>
+                </section>
 
-                <SubmitButton isLoading={isLoading}>Get in touch</SubmitButton>
+                {/* Primary Physician */}
+                <CustomFormField
+                    fieldType={FormFieldTypes.SELECT}
+                    control={form.control}
+                    name='primaryPhysician'
+                    label="Primary Physician"
+                    placeholder="Select a Physician"
+                >
+                    {Doctors.map((doctor) => (
+                        <SelectItem key={doctor.name} value={doctor.name}>
+                            <div className="flex gap-2 items-center cursor-pointer">
+                                <Image
+                                    src={doctor.image}
+                                    height={32}
+                                    width={32}
+                                    alt={doctor.name}
+                                    className="border border-dark-500 rounded-full"
+                                />
+                                <span>{doctor.name}</span>
+                            </div>
+                        </SelectItem>
+                    ))}
+                </CustomFormField>
+
+                <div className="flex flex-col gap-6 xl:flex-row">
+                    {/*  Insurance Provider */}
+                    <CustomFormField
+                        fieldType={FormFieldTypes.INPUT}
+                        control={form.control}
+                        name='insuranceProvider'
+                        label="Insurance provider"
+                        placeholder="BlueCross BlueShield"
+                    />
+
+                    {/*  Insurance Policy Number */}
+                    <CustomFormField
+                        fieldType={FormFieldTypes.INPUT}
+                        control={form.control}
+                        name='insurancePolicyNumber'
+                        label="Insurance policy number"
+                        placeholder="ABC123456789"
+                    />
+                </div>
+
+                <div className="flex flex-col gap-6 xl:flex-row">
+                    {/*  Allergies */}
+                    <CustomFormField
+                        fieldType={FormFieldTypes.TEXTAREA}
+                        control={form.control}
+                        name='allergies'
+                        label="Allergies (if any)"
+                        placeholder="Peanuts, Pollen, Eggs"
+                    />
+
+                    {/*  Current Medication */}
+                    <CustomFormField
+                        fieldType={FormFieldTypes.TEXTAREA}
+                        control={form.control}
+                        name='currentMedication'
+                        label="Current medication (if any)"
+                        placeholder="Tylenol 500mg, Advil 500mg"
+                    />
+                </div>
+
+                <div className="flex flex-col gap-6 xl:flex-row">
+                    {/*  Family Medical History */}
+                    <CustomFormField
+                        fieldType={FormFieldTypes.TEXTAREA}
+                        control={form.control}
+                        name='familyMedicalHistory'
+                        label="Family medical history"
+                        placeholder="Mother had diabetes, father had heart disease"
+                    />
+
+                    {/*  Past Medical History */}
+                    <CustomFormField
+                        fieldType={FormFieldTypes.TEXTAREA}
+                        control={form.control}
+                        name='pastMedicalHistory'
+                        label="Past medical history"
+                        placeholder="Appendectomy, Tonsillectomy"
+                    />
+                </div>
+
+                <SubmitButton isLoading={isLoading}>Submit and continue</SubmitButton>
             </form>
         </Form>
     )

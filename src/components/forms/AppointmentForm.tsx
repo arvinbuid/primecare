@@ -8,11 +8,12 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import CustomFormField from "../CustomFormField"
 import SubmitButton from "../SubmitButton"
 import { useState } from "react"
-import { AppointmentFormValidation } from "../../../lib/validation"
+import { getAppointmentSchema } from "../../../lib/validation"
 import { useRouter } from "next/navigation"
 import { Doctors } from "../../../constants"
 import { SelectItem } from "../ui/select"
 import Image from "next/image"
+import { createAppointment } from "../../../lib/actions/appointment.actions"
 
 export enum FormFieldTypes {
     INPUT = 'input',
@@ -34,6 +35,8 @@ const AppointmentForm = ({ type, userId, patientId }: AppointmentFormProps) => {
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter()
 
+    const AppointmentFormValidation = getAppointmentSchema(type)
+
     const form = useForm<z.infer<typeof AppointmentFormValidation>>({
         resolver: zodResolver(AppointmentFormValidation),
         defaultValues: {
@@ -47,6 +50,46 @@ const AppointmentForm = ({ type, userId, patientId }: AppointmentFormProps) => {
 
     async function onSubmit(values: z.infer<typeof AppointmentFormValidation>) {
         setIsLoading(true);
+
+        let status;
+
+        switch (type) {
+            case 'schedule':
+                status = 'scheduled';
+                break;
+            case 'cancel':
+                status = 'cancelled';
+                break;
+            default:
+                status = 'pending';
+                break;
+        }
+
+        try {
+            if (type === 'create' && patientId) {
+                const appointmentData = {
+                    userId,
+                    patient: patientId,
+                    primaryPhysician: values.primaryPhysician,
+                    reason: values.reason!,
+                    schedule: values.schedule,
+                    status: status as Status,
+                    note: values.note,
+                }
+
+                // Create new appointment
+                const newAppointment = await createAppointment(appointmentData)
+
+                if (newAppointment) {
+                    form.reset();
+                    router.push(`/patients/${userId}/new-appointment/success?appointmentId=${newAppointment.$id}`)
+
+                }
+            }
+        } catch (error) {
+            console.error(error)
+        }
+        setIsLoading(false);
     }
 
     let buttonLabel;

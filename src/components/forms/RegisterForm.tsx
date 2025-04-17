@@ -18,6 +18,7 @@ import { Doctors, GenderOptions, IdentificationTypes } from "../../../constants"
 import { Label } from "../ui/label"
 import { SelectItem } from "../ui/select"
 import Image from "next/image"
+import FileUploader from "../FileUploader"
 
 const RegisterForm = ({ user }: { user: User }) => {
     const [isLoading, setIsLoading] = useState(false);
@@ -304,7 +305,7 @@ const RegisterForm = ({ user }: { user: User }) => {
                     label="Scanned copy of your identification document"
                     renderSkeleton={(field) => (
                         <FormControl>
-                            File upload component here...
+                            <FileUploader files={field.value} onChange={field.onChange} />
                         </FormControl>
                     )}
                 />

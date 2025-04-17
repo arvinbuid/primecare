@@ -14,7 +14,7 @@ import { FormFieldTypes } from "./PatientForm"
 import CustomFormField from "../CustomFormField"
 import SubmitButton from "../SubmitButton"
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group"
-import { Doctors, GenderOptions } from "../../../constants"
+import { Doctors, GenderOptions, IdentificationTypes } from "../../../constants"
 import { Label } from "../ui/label"
 import { SelectItem } from "../ui/select"
 import Image from "next/image"
@@ -262,6 +262,52 @@ const RegisterForm = ({ user }: { user: User }) => {
                         placeholder="Appendectomy, Tonsillectomy"
                     />
                 </div>
+
+                {/* Identification and Verification */}
+                <section className="space-y-4">
+                    <div className="mb-9 space-y-1">
+                        <h2 className="sub-header">Identification and Verification</h2>
+                    </div>
+                </section>
+
+                {/* Identification Type */}
+                <CustomFormField
+                    fieldType={FormFieldTypes.SELECT}
+                    control={form.control}
+                    name='identificationType'
+                    label="Identification type"
+                    placeholder="Select an indentification type"
+                >
+                    {IdentificationTypes.map((type) => (
+                        <SelectItem key={type} value={type}>
+                            <div className="cursor-pointer">
+                                <span>{type}</span>
+                            </div>
+                        </SelectItem>
+                    ))}
+                </CustomFormField>
+
+                {/*  Identification Number */}
+                <CustomFormField
+                    fieldType={FormFieldTypes.INPUT}
+                    control={form.control}
+                    name='identificationNumber'
+                    label="Identification number"
+                    placeholder="123456789"
+                />
+
+                {/* Identification Document */}
+                <CustomFormField
+                    fieldType={FormFieldTypes.SKELETON}
+                    control={form.control}
+                    name='identificationDocument'
+                    label="Scanned copy of your identification document"
+                    renderSkeleton={(field) => (
+                        <FormControl>
+                            File upload component here...
+                        </FormControl>
+                    )}
+                />
 
                 <SubmitButton isLoading={isLoading}>Submit and continue</SubmitButton>
             </form>

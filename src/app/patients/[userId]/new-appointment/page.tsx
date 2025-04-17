@@ -1,12 +1,13 @@
 import Image from "next/image"
 
-import { getUser } from "../../../../../lib/actions/patient.actions"
+import AppointmentForm from "@/components/forms/AppointmentForm";
+import { getPatient } from "../../../../../lib/actions/patient.actions";
 
 const NewAppointment = async (props: {
     params: Promise<{ userId: string }>
 }) => {
     const { userId } = await props.params;
-    const user = await getUser(userId);
+    const patient = await getPatient(userId);
 
     return (
         <div className="flex h-screen max-h-screen">
@@ -20,7 +21,7 @@ const NewAppointment = async (props: {
                         className="mb-12 h-10 w-fit"
                     />
 
-                    {/* Appointment Form */}
+                    <AppointmentForm type='create' userId={userId} patientId={patient.$id} />
 
                     <p className="copyright py-12">
                         © 2025 PrimeCare

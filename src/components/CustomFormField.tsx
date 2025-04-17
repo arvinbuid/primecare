@@ -18,6 +18,7 @@ import PhoneInput from 'react-phone-number-input'
 import { E164Number } from 'libphonenumber-js/core'
 import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select"
 import { Textarea } from "./ui/textarea"
+import { Checkbox } from "./ui/checkbox"
 
 interface CustomProps {
     control: any
@@ -35,7 +36,7 @@ interface CustomProps {
 }
 
 const RenderField = ({ field, props }: { field: any, props: CustomProps }) => {
-    const { fieldType, iconSrc, iconAlt, placeholder, showTimeSelect, dateFormat, renderSkeleton, children, disabled } = props
+    const { fieldType, iconSrc, iconAlt, placeholder, showTimeSelect, dateFormat, renderSkeleton, children, disabled, name, label } = props
 
     switch (fieldType) {
         case FormFieldTypes.INPUT:
@@ -117,6 +118,21 @@ const RenderField = ({ field, props }: { field: any, props: CustomProps }) => {
             )
         case FormFieldTypes.SKELETON:
             return renderSkeleton ? renderSkeleton(field) : null
+        case FormFieldTypes.CHECKBOX:
+            return (
+                <FormControl>
+                    <div className="flex items-center gap-4">
+                        <Checkbox
+                            id={name}
+                            checked={field.checked}
+                            onChange={field.onChange}
+                        />
+                        <label htmlFor={name} className="checkbox-label">
+                            {label}
+                        </label>
+                    </div>
+                </FormControl>
+            )
         default:
             break;
     }

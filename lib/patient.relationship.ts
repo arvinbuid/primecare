@@ -21,7 +21,7 @@ export const createPatientRelationship = async () => {
         RelationshipType.ManyToOne, // Relationship type
         true, // Is two-way
         "patient", // Attribute key
-        "null" // On delete action
+        "cascade" // On delete action
       );
 
       console.log("Relationship attribute created successfully!", patientRelationship); // Log the result

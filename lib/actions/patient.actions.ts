@@ -18,8 +18,6 @@ export const createUser = async (user: CreateUserParams) => {
   try {
     const newUser = await users.create(ID.unique(), user.email, user.phone, undefined, user.name);
 
-    console.log(newUser);
-
     return parseStringify(newUser);
   } catch (error: any) {
     if (error && error.code === 409) {
@@ -75,10 +73,10 @@ export const registerPatient = async ({identificationDocument, ...patient}: Regi
 export const getPatient = async (userId: string) => {
   try {
     const patients = await databases.listDocuments(DATABASE_ID!, PATIENT_COLLECTION_ID!, [
-      Query.equal("userId", userId),
+      Query.equal("userId", [userId]),
     ]);
 
-    return parseStringify(patients);
+    return parseStringify(patients.documents[0]);
   } catch (error) {
     console.error(error);
   }

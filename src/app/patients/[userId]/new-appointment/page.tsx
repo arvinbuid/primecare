@@ -2,12 +2,16 @@ import Image from "next/image"
 
 import AppointmentForm from "@/components/forms/AppointmentForm";
 import { getPatient } from "../../../../../lib/actions/patient.actions";
+import { createPatientRelationship } from "../../../../../lib/patient.relationship";
 
 const NewAppointment = async (props: {
     params: Promise<{ userId: string }>
 }) => {
     const { userId } = await props.params;
     const patient = await getPatient(userId);
+
+    // Uncomment this to programatically create the appointment -> patient relationship
+    // await createPatientRelationship()
 
     return (
         <div className="flex h-screen max-h-screen">
@@ -21,7 +25,7 @@ const NewAppointment = async (props: {
                         className="mb-12 h-10 w-fit"
                     />
 
-                    <AppointmentForm type='create' userId={userId} patientId={patient.$id} />
+                    <AppointmentForm type='create' userId={userId} patientId={patient?.$id} />
 
                     <p className="copyright py-12">
                         © 2025 PrimeCare

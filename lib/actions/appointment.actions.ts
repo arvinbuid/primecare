@@ -41,9 +41,6 @@ export const getRecentAppointmentList = async () => {
       Query.orderDesc("$createdAt"),
     ]);
 
-    console.log("Documents:", appointments.documents);
-    console.log("Total:", appointments.total);
-
     const initialCounts = {
       scheduledCount: 0,
       cancelledCount: 0,

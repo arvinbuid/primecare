@@ -17,16 +17,20 @@ import CustomFormField from "../CustomFormField";
 import { Doctors } from "../../../constants";
 import { FormFieldTypes } from "./PatientForm";
 
+interface AppointmentFormProps {
+    userId: string;
+    patientId: string;
+    type: "create" | "schedule" | "cancel";
+    appointment?: Appointment;
+    setOpen: (open: boolean) => void
+}
+
 export const AppointmentForm = ({
     userId,
     patientId,
     type = "create",
 
-}: {
-    userId: string;
-    patientId: string;
-    type: "create" | "schedule" | "cancel";
-}) => {
+}: AppointmentFormProps) => {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
     const AppointmentFormValidation = getAppointmentSchema(type);

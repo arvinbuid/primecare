@@ -6,21 +6,13 @@ import Image from "next/image"
 import { ColumnDef } from "@tanstack/react-table"
 import { formatDateTime } from "../../../lib/utils"
 import { Doctors } from "../../../constants"
+import AppointmentModal from "../AppointmentModal"
+import { Appointment } from "../../../types/appwrite.types"
 
-export type Patient = {
-    id: string
-    patient: {
-        name: string
-    }
-    status: Status
-    schedule: string
-    primaryPhysician: string
-}
-
-const columns: ColumnDef<Patient>[] = [
+const columns: ColumnDef<Appointment>[] = [
     /* ID */
     {
-        accessorKey: "ID",
+        accessorKey: "#",
         cell: ({ row }) => <p className="text-14-medium">{row.index + 1}</p>
     },
     /* Patient */
@@ -79,10 +71,23 @@ const columns: ColumnDef<Patient>[] = [
     {
         id: "actions",
         header: () => <p className="pl-4">Actions</p>,
-        cell: ({ row }) => {
+        cell: ({ row: { original: data } }) => {
             return (
                 <div className="flex gap-1">
-                    {/* AppointmentModal here... */}
+                    {/* Schedule */}
+                    <AppointmentModal
+                        type="schedule"
+                        userId={data.userId}
+                        patientId={data.patient.$id}
+                        appointment={data}
+                    />
+                    {/* Cancel */}
+                    <AppointmentModal
+                        type="cancel"
+                        userId={data.userId}
+                        patientId={data.patient.$id}
+                        appointment={data}
+                    />
                 </div>
             )
         },

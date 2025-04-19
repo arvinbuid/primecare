@@ -113,6 +113,7 @@ const RenderField = ({ field, props }: { field: any, props: CustomProps }) => {
                         {...field}
                         className="shad-textArea"
                         disabled={disabled}
+                        value={field.value || ''}
                     />
                 </FormControl>
             )

@@ -22,6 +22,7 @@ interface AppointmentModalProps {
 
 const AppointmentModal = ({ type, userId, patientId, appointment }: AppointmentModalProps) => {
     const [open, setOpen] = useState(false)
+
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
@@ -29,7 +30,7 @@ const AppointmentModal = ({ type, userId, patientId, appointment }: AppointmentM
             </DialogTrigger>
             <DialogContent className="shad-dialog sm:max-w:md">
                 <DialogHeader className="mb-4 space-y-3">
-                    <DialogTitle className="capitalize mb-2">{type} Appointment</DialogTitle>
+                    <DialogTitle className="capitalize mb-2 text-3xl font-bold">{type} Appointment</DialogTitle>
                     <DialogDescription>
                         Please fill in the following to {type} an appointment
                     </DialogDescription>

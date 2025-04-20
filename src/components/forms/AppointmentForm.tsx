@@ -52,7 +52,6 @@ export const AppointmentForm = ({
         values: z.infer<typeof AppointmentFormValidation>
     ) => {
         setIsLoading(true);
-        console.log('Submitting...', { type })
 
         let status;
         switch (type) {

@@ -12,7 +12,7 @@ import { Appointment } from "../../../types/appwrite.types"
 const columns: ColumnDef<Appointment>[] = [
     /* ID */
     {
-        accessorKey: "#",
+        accessorKey: "ID",
         cell: ({ row }) => <p className="text-14-medium">{row.index + 1}</p>
     },
     /* Patient */

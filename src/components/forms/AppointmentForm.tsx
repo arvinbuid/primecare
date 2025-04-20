@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -22,7 +22,7 @@ interface AppointmentFormProps {
     patientId: string;
     type: "create" | "schedule" | "cancel";
     appointment?: Appointment;
-    setOpen: (open: boolean) => void
+    setOpen?: (open: boolean) => void
 }
 
 export const AppointmentForm = ({
@@ -40,11 +40,13 @@ export const AppointmentForm = ({
     const form = useForm<z.infer<typeof AppointmentFormValidation>>({
         resolver: zodResolver(AppointmentFormValidation),
         defaultValues: {
-            primaryPhysician: appointment ? appointment.primaryPhysician : "",
-            schedule: appointment ? new Date(appointment.schedule) : new Date(),
+            primaryPhysician: appointment ? appointment?.primaryPhysician : "",
+            schedule: appointment
+                ? new Date(appointment?.schedule!)
+                : new Date(Date.now()),
             reason: appointment ? appointment.reason : "",
-            note: appointment ? appointment.note : "",
-            cancellationReason: appointment ? appointment.cancellationReason! : "",
+            note: appointment?.note || "",
+            cancellationReason: appointment?.cancellationReason || "",
         },
     });
 

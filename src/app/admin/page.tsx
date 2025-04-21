@@ -5,9 +5,11 @@ import DataTable from "@/components/table/DataTable";
 import columns from "@/components/table/columns";
 
 import { getRecentAppointmentList } from "../../../lib/actions/appointment.actions";
+import LogoutButton from "@/components/Logout";
 
 const Admin = async () => {
     const appointments = await getRecentAppointmentList();
+
     return (
         <div className='mx-auto flex flex-col max-w-7xl space-y-14'>
             <header className="admin-header">
@@ -21,7 +23,7 @@ const Admin = async () => {
                     />
                 </Link>
 
-                <p className="text-14-regular">Admin Dashboard</p>
+                <LogoutButton />
             </header>
 
             <main className="admin-main">
